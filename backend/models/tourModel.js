@@ -1,26 +1,59 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const tourSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "A tour must have a name"],
+    required: [true, 'Name is required'],
     unique: true,
-    trim: true,
-    maxlength: [40, "A tour name must have less than 40 characters"],
-    minlength: [10, "A tour name must have more than 10 characters"],
   },
-  rating: {
+  duration: {
+    type: Number,
+    required: [true, 'Duration is required'],
+  },
+  maxGroupSize: {
+    type: Number,
+    required: [true, 'Group size is required'],
+  },
+  difficulty: {
+    type: String,
+    required: [true, 'Difficulty is required'],
+  },
+  ratingsAverage: {
     type: Number,
     default: 4.5,
-    max: [5, "A tour rating must be less than 5"],
-    min: [1, "A tour rating must be more than 1"],
+  },
+  ratingsQuantity: {
+    type: Number,
+    default: 0,
   },
   price: {
     type: Number,
-    required: [true, "A tour must have a price"],
+    required: [true, 'Price is required'],
   },
+  priceDiscount: {
+    type: Number,
+  },
+  summary: {
+    type: String,
+    trim: true,
+  },
+  description: {
+    type: String,
+    trim: true,
+  },
+  imageCover: {
+    type: String,
+    required: [true, 'Image is required'],
+  },
+  images: [String],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    select: false,
+  },
+  startDates: [Date],
 });
 
-const Tour = mongoose.model("Tour", tourSchema);
+const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
