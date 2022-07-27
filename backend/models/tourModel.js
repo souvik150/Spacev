@@ -10,6 +10,7 @@ const tourSchema = new mongoose.Schema(
       trim: true,
       maxlength: [40, 'Name must be less than 40 characters'],
       minlength: [10, 'Name must be at least 10 characters'],
+      // validate: [validator.isAlpha, 'Name must contain only characters'],
     },
     slug: String,
     duration: {
@@ -44,6 +45,13 @@ const tourSchema = new mongoose.Schema(
     },
     priceDiscount: {
       type: Number,
+      validate: {
+        validator: function (val) {
+          // this only points to current doc on NEW document creation
+          return val < this.price;
+        },
+        message: 'Discount price ({VALUE}) should be below regular price',
+      },
     },
     summary: {
       type: String,
