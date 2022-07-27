@@ -15,6 +15,9 @@ router
   .get(tourController.getAllTours)
   .post(/*tourController.checkBody,*/ tourController.createTour);
 
+router.route('/tours-stats').get(tourController.getTourStats);
+router.route('/monthly-plan').get(tourController.getMonthlyPlan);
+
 router
   .route('/:id')
   .get(tourController.getTour)
