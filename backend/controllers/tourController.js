@@ -30,45 +30,6 @@ exports.aliasTopTours = (req, res, next) => {
 
 exports.getAllTours = async (req, res) => {
   try {
-    // Filtering
-    // const queryObj = { ...req.query };
-    // const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    // excludedFields.forEach((el) => delete queryObj[el]);
-
-    // // Advance Filtering
-
-    // let queryStr = JSON.stringify(queryObj);
-    // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    // console.log(JSON.parse(queryStr));
-
-    // let query = Tour.find(JSON.parse(queryStr));
-
-    // Sorting
-    // if (req.query.sort) {
-    //   const sortBy = req.query.sort.split(',').join(' ');
-    //   query = query.sort(sortBy);
-    // } else {
-    //   query = query.sort('-createdAt');
-    // }
-
-    // Field Limiting
-    // if (req.query.fields) {
-    //   const fields = req.query.fields.split(',').join(' ');
-    //   query = query.select(fields);
-    // } else {
-    //   query = query.select('-__v');
-    // }
-
-    // Pagination
-    // const page = req.query.page * 1 || 1;
-    // const limit = req.query.limit * 1 || 3;
-    // const skip = (page - 1) * limit;
-
-    // 1 - 10 page 1, 11 - 20 page 2, 21 - 30 page 3
-    // query = query.skip(skip).limit(limit);
-
-    // Execute Query
-
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
       .sort()
@@ -95,11 +56,12 @@ exports.getAllTours = async (req, res) => {
 exports.getTour = async (req, res) => {
   try {
     const tour = await Tour.findById(req.params.id);
+    console.log(tour);
 
     res.status(200).json({
       status: 'success',
       data: {
-        tour: tour,
+        tour,
       },
     });
   } catch (err) {
@@ -108,13 +70,6 @@ exports.getTour = async (req, res) => {
       message: err,
     });
   }
-
-  // res.status(200).json({
-  //   status: 'Success',
-  //   data: {
-  //     tour: tour,
-  //   },
-  // });
 };
 
 exports.createTour = async (req, res) => {
@@ -224,30 +179,34 @@ exports.getMonthlyPlan = async (req, res) => {
       {
         $match: {
           startDates: {
-            $gte: new Date(`${year}-01-01`),
-            $lte: new Date(`${year}-12-31`),
+            $gte: new Date(`${year}-01-01`).toISOString(),
+            $lte: new Date(`${year}-12-31`).toISOString(),
           },
         },
       },
       {
         $group: {
-          _id: { $month: '$startDates' },
+          _id: { $month: { $toDate: '$startDates' } },
           numTourStarts: { $sum: 1 },
           tours: { $push: '$name' },
         },
       },
       {
-        $addFields: { month: '$_id' },
+        $project: {
+          _id: 0,
+          month: '$_id',
+          tours: 1,
+          numTourStarts: 1,
+        },
       },
       {
-        $project: { _id: 0 },
+        $sort: {
+          numTourStarts: -1,
+        },
       },
-      {
-        $sort: { numTourStarts: -1 },
-      },
-      {
-        $limit: 12,
-      },
+      // {
+      //   $limit: 12,
+      // },
     ]);
 
     res.status(200).json({
