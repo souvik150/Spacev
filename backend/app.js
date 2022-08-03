@@ -23,7 +23,6 @@ app.use((req, res, next) => {
 });
 
 // 3) Routes
-
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
