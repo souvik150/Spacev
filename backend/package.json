@@ -1,31 +1,35 @@
 {
-  "name": "spacev",
+  "name": "natours",
   "version": "1.0.0",
-  "description": "A website to book tours for outer space",
-  "main": "server.js",
+  "description": "Learning node, express and mongoDB",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production&& nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/souvik150/Spacev.git"
-  },
-  "author": "Souvik Mukherjee",
+  "author": "Jonas Schmedtmann",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/souvik150/Spacev/issues"
-  },
-  "homepage": "https://github.com/souvik150/Spacev#readme",
   "dependencies": {
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "mongoose": "^6.4.4",
-    "morgan": "^1.10.0",
-    "ndb": "^1.1.5",
-    "nodemon": "^2.0.19",
-    "slugify": "^1.6.5",
-    "win-node-env": "^0.6.1"
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.5.2",
+    "morgan": "^1.9.1",
+    "slugify": "^1.3.4",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "prettier": "^1.17.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
