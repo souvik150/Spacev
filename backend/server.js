@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
@@ -19,7 +20,7 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true
   })
-  .then(() => console.log('DB connection successful!'));
+  .then(() => console.log('DB connection successful! 🟢🟢🟢'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
